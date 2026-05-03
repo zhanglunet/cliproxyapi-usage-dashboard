@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-label="CLIProxyAPI 用量统计面板脱敏预览图">
+  <defs>
+    <style>
+      .bg { fill: #f6f7f9; }
+      .panel { fill: #ffffff; stroke: #d9dee7; stroke-width: 1; }
+      .title { fill: #17202a; font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .h2 { fill: #17202a; font: 700 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .label { fill: #667085; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .value { fill: #17202a; font: 700 30px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .text { fill: #344054; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .small { fill: #667085; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .num { fill: #17202a; font: 13px Menlo, Consolas, monospace; }
+      .line { stroke: #d9dee7; stroke-width: 1; }
+      .blue { fill: #2563eb; }
+      .green { fill: #0f9f6e; }
+      .amber { fill: #b7791f; }
+      .red { fill: #d92d20; }
+      .muted { fill: #edf1f7; }
+      .btn { fill: #ffffff; stroke: #d9dee7; stroke-width: 1; }
+      .btn-primary { fill: #2563eb; }
+      .btn-text { fill: #17202a; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .btn-primary-text { fill: #ffffff; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1440" height="900"/>
+  <rect x="0" y="0" width="1440" height="66" fill="#ffffff"/>
+  <line class="line" x1="0" y1="66" x2="1440" y2="66"/>
+  <text class="title" x="28" y="42">CLIProxyAPI 用量统计</text>
+  <rect class="btn" x="1028" y="18" width="86" height="34" rx="6"/>
+  <text class="btn-text" x="1054" y="40">今天</text>
+  <rect class="btn" x="1124" y="18" width="74" height="34" rx="6"/>
+  <text class="btn-text" x="1149" y="40">刷新</text>
+  <rect class="btn-primary" x="1208" y="18" width="104" height="34" rx="6"/>
+  <text class="btn-primary-text" x="1231" y="40">刷新余量</text>
+  <text class="small" x="1322" y="39">更新于 20:15:30</text>
+
+  <g transform="translate(24 92)">
+    <rect class="panel" x="0" y="0" width="262" height="108" rx="8"/>
+    <text class="label" x="18" y="30">请求/任务数</text>
+    <text class="value" x="18" y="70">128</text>
+    <text class="small" x="18" y="94">失败 2</text>
+
+    <rect class="panel" x="280" y="0" width="262" height="108" rx="8"/>
+    <text class="label" x="298" y="30">总 Tokens</text>
+    <text class="value" x="298" y="70">1,284,560</text>
+    <text class="small" x="298" y="94">输入 + 输出 + 推理</text>
+
+    <rect class="panel" x="560" y="0" width="262" height="108" rx="8"/>
+    <text class="label" x="578" y="30">输入 Tokens</text>
+    <text class="value" x="578" y="70">812,340</text>
+    <text class="small" x="578" y="94">含缓存命中另计</text>
+
+    <rect class="panel" x="840" y="0" width="262" height="108" rx="8"/>
+    <text class="label" x="858" y="30">输出 Tokens</text>
+    <text class="value" x="858" y="70">226,880</text>
+    <text class="small" x="858" y="94">模型回复</text>
+
+    <rect class="panel" x="1120" y="0" width="262" height="108" rx="8"/>
+    <text class="label" x="1138" y="30">推理 Tokens</text>
+    <text class="value" x="1138" y="70">245,340</text>
+    <text class="small" x="1138" y="94">reasoning</text>
+  </g>
+
+  <g transform="translate(24 218)">
+    <rect class="panel" x="0" y="0" width="830" height="286" rx="8"/>
+    <text class="h2" x="18" y="30">按小时消耗</text>
+    <line class="line" x1="58" y1="230" x2="800" y2="230"/>
+    <rect class="blue" x="86" y="162" width="28" height="68" rx="3"/>
+    <rect class="blue" x="146" y="126" width="28" height="104" rx="3"/>
+    <rect class="blue" x="206" y="184" width="28" height="46" rx="3"/>
+    <rect class="blue" x="266" y="90" width="28" height="140" rx="3"/>
+    <rect class="blue" x="326" y="112" width="28" height="118" rx="3"/>
+    <rect class="blue" x="386" y="62" width="28" height="168" rx="3"/>
+    <rect class="blue" x="446" y="148" width="28" height="82" rx="3"/>
+    <rect class="blue" x="506" y="104" width="28" height="126" rx="3"/>
+    <rect class="blue" x="566" y="74" width="28" height="156" rx="3"/>
+    <rect class="blue" x="626" y="138" width="28" height="92" rx="3"/>
+    <rect class="blue" x="686" y="98" width="28" height="132" rx="3"/>
+    <rect class="blue" x="746" y="120" width="28" height="110" rx="3"/>
+    <text class="small" x="84" y="254">09:00</text>
+    <text class="small" x="204" y="254">11:00</text>
+    <text class="small" x="324" y="254">13:00</text>
+    <text class="small" x="444" y="254">15:00</text>
+    <text class="small" x="564" y="254">17:00</text>
+    <text class="small" x="684" y="254">19:00</text>
+
+    <rect class="panel" x="848" y="0" width="534" height="286" rx="8"/>
+    <text class="h2" x="866" y="30">模型消耗</text>
+    <text class="text" x="872" y="70">gpt-5.4-mini</text>
+    <rect class="green" x="1030" y="56" width="260" height="16" rx="3"/>
+    <text class="num" x="1304" y="70">620,480</text>
+    <text class="text" x="872" y="106">gpt-5.4</text>
+    <rect class="green" x="1030" y="92" width="184" height="16" rx="3"/>
+    <text class="num" x="1228" y="106">438,210</text>
+    <text class="text" x="872" y="142">gpt-5.3-codex</text>
+    <rect class="green" x="1030" y="128" width="94" height="16" rx="3"/>
+    <text class="num" x="1138" y="142">225,870</text>
+  </g>
+
+  <g transform="translate(24 522)">
+    <rect class="panel" x="0" y="0" width="830" height="188" rx="8"/>
+    <text class="h2" x="18" y="30">账号消耗</text>
+    <line class="line" x1="18" y1="48" x2="812" y2="48"/>
+    <text class="label" x="18" y="70">账号</text>
+    <text class="label" x="348" y="70">请求</text>
+    <text class="label" x="448" y="70">总 Token</text>
+    <text class="label" x="570" y="70">输入</text>
+    <text class="label" x="678" y="70">输出</text>
+    <text class="text" x="18" y="102">account-a@example.local</text>
+    <text class="num" x="360" y="102">54</text>
+    <text class="num" x="448" y="102">512,430</text>
+    <text class="num" x="570" y="102">326,100</text>
+    <text class="num" x="678" y="102">92,400</text>
+    <text class="text" x="18" y="134">account-b@example.local</text>
+    <text class="num" x="360" y="134">41</text>
+    <text class="num" x="448" y="134">418,760</text>
+    <text class="num" x="570" y="134">270,600</text>
+    <text class="num" x="678" y="134">71,220</text>
+    <text class="text" x="18" y="166">account-c@example.local</text>
+    <text class="num" x="360" y="166">33</text>
+    <text class="num" x="448" y="166">353,370</text>
+    <text class="num" x="570" y="166">215,640</text>
+    <text class="num" x="678" y="166">63,260</text>
+
+    <rect class="panel" x="848" y="0" width="534" height="188" rx="8"/>
+    <text class="h2" x="866" y="30">账号余量</text>
+    <line class="line" x1="866" y1="48" x2="1362" y2="48"/>
+    <text class="text" x="866" y="78">account-a@example.local</text>
+    <circle class="green" cx="1056" cy="73" r="5"/>
+    <rect class="muted" x="1080" y="64" width="94" height="10" rx="5"/>
+    <rect class="green" x="1080" y="64" width="74" height="10" rx="5"/>
+    <text class="small" x="1184" y="76">5h 79%</text>
+    <rect class="muted" x="1240" y="64" width="94" height="10" rx="5"/>
+    <rect class="green" x="1240" y="64" width="86" height="10" rx="5"/>
+    <text class="small" x="1342" y="76">7d 92%</text>
+
+    <text class="text" x="866" y="116">account-b@example.local</text>
+    <circle class="green" cx="1056" cy="111" r="5"/>
+    <rect class="muted" x="1080" y="102" width="94" height="10" rx="5"/>
+    <rect class="amber" x="1080" y="102" width="29" height="10" rx="5"/>
+    <text class="small" x="1184" y="114">5h 31%</text>
+    <rect class="muted" x="1240" y="102" width="94" height="10" rx="5"/>
+    <rect class="amber" x="1240" y="102" width="18" height="10" rx="5"/>
+    <text class="small" x="1342" y="114">7d 19%</text>
+
+    <text class="text" x="866" y="154">account-c@example.local</text>
+    <circle class="red" cx="1056" cy="149" r="5"/>
+    <rect class="muted" x="1080" y="140" width="94" height="10" rx="5"/>
+    <rect class="green" x="1080" y="140" width="94" height="10" rx="5"/>
+    <text class="small" x="1184" y="152">5h 100%</text>
+    <rect class="muted" x="1240" y="140" width="94" height="10" rx="5"/>
+    <rect class="red" x="1240" y="140" width="0" height="10" rx="5"/>
+    <text class="small" x="1342" y="152">7d 0%</text>
+  </g>
+
+  <g transform="translate(24 728)">
+    <rect class="panel" x="0" y="0" width="1382" height="138" rx="8"/>
+    <text class="h2" x="18" y="30">最近每次请求/任务</text>
+    <line class="line" x1="18" y1="48" x2="1362" y2="48"/>
+    <text class="label" x="18" y="70">时间</text>
+    <text class="label" x="170" y="70">账号</text>
+    <text class="label" x="420" y="70">模型</text>
+    <text class="label" x="610" y="70">总 Token</text>
+    <text class="label" x="730" y="70">输入</text>
+    <text class="label" x="840" y="70">输出</text>
+    <text class="label" x="950" y="70">推理</text>
+    <text class="label" x="1060" y="70">耗时</text>
+    <text class="label" x="1160" y="70">状态</text>
+    <text class="text" x="18" y="102">2026-05-03 20:12:01</text>
+    <text class="text" x="170" y="102">account-a@example.local</text>
+    <text class="text" x="420" y="102">gpt-5.4-mini</text>
+    <text class="num" x="610" y="102">3,812</text>
+    <text class="num" x="730" y="102">2,240</text>
+    <text class="num" x="840" y="102">642</text>
+    <text class="num" x="950" y="102">930</text>
+    <text class="num" x="1060" y="102">1,840ms</text>
+    <text class="text" x="1160" y="102">成功</text>
+    <text class="small" x="18" y="126">预览图使用模拟账号和模拟数值，不包含真实账号、密钥或用量数据。</text>
+  </g>
+</svg>
