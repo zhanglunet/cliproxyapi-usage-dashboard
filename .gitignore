@@ -1,0 +1,8 @@
+config.json
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+logs/
+__pycache__/
+*.pyc
+.DS_Store

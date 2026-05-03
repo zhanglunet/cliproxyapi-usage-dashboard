@@ -1,0 +1,10 @@
+{
+  "cliproxy_host": "127.0.0.1",
+  "cliproxy_port": 8317,
+  "management_key": "replace-with-your-management-key",
+  "proxy_api_key": "replace-with-your-cliproxy-api-key",
+  "poll_interval_seconds": 2,
+  "quota_refresh_seconds": 300,
+  "dashboard_host": "127.0.0.1",
+  "dashboard_port": 8320
+}

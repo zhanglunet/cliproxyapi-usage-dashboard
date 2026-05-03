@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.cliproxyapi.usage-collector</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>/Users/YOUR_USER/.cli-proxy-api/usage-dashboard/usage_dashboard.py</string>
+    <string>collect</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/YOUR_USER/.cli-proxy-api/usage-dashboard/logs/collector.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/YOUR_USER/.cli-proxy-api/usage-dashboard/logs/collector.err.log</string>
+</dict>
+</plist>
