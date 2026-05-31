@@ -523,11 +523,11 @@ DASHBOARD_HTML = r"""<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>CLIProxyAPI 用量统计</title>
+  <title data-i18n="title">CLIProxyAPI 用量统计</title>
   <style>
     :root { color-scheme: light; --bg:#f6f7f9; --panel:#fff; --text:#17202a; --muted:#667085; --line:#d9dee7; --blue:#2563eb; --green:#0f9f6e; --red:#d92d20; --amber:#b7791f; }
     * { box-sizing: border-box; }
-    body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:var(--bg); color:var(--text); }
+    body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:var(--bg); color:var(--text); opacity: 0; transition: opacity 0.15s ease-in; }
     header { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 24px; border-bottom:1px solid var(--line); background:#fff; position:sticky; top:0; z-index:2; }
     h1 { font-size:20px; margin:0; }
     main { padding:20px 24px 32px; max-width:1440px; margin:0 auto; }
@@ -561,40 +561,196 @@ DASHBOARD_HTML = r"""<!doctype html>
 </head>
 <body>
   <header>
-    <h1>CLIProxyAPI 用量统计</h1>
+    <h1 data-i18n="title">CLIProxyAPI 用量统计</h1>
     <div class="toolbar">
-      <select id="range">
-        <option value="today">今天</option>
-        <option value="1h">最近 1 小时</option>
-        <option value="5h">最近 5 小时</option>
-        <option value="24h">最近 24 小时</option>
-        <option value="7d">最近 7 天</option>
+      <select id="lang">
+        <option value="zh-CN">简体中文</option>
+        <option value="vi-VN">Tiếng Việt</option>
+        <option value="en-US">English</option>
       </select>
-      <button id="refresh">刷新</button>
-      <button id="quota" class="primary">刷新余量</button>
+      <select id="range">
+        <option value="today" data-i18n="range_today">今天</option>
+        <option value="1h" data-i18n="range_1h">最近 1 小时</option>
+        <option value="5h" data-i18n="range_5h">最近 5 小时</option>
+        <option value="24h" data-i18n="range_24h">最近 24 小时</option>
+        <option value="7d" data-i18n="range_7d">最近 7 天</option>
+      </select>
+      <button id="refresh" data-i18n="refresh">刷新</button>
+      <button id="quota" class="primary" data-i18n="refresh_quota">刷新余量</button>
       <span id="updated" class="muted"></span>
     </div>
   </header>
   <main>
     <section class="grid kpis">
-      <div class="panel kpi"><div class="label">请求/任务数</div><div class="value" id="kReq">0</div><div class="sub" id="kFail">失败 0</div></div>
-      <div class="panel kpi"><div class="label">总 Tokens</div><div class="value" id="kTok">0</div><div class="sub">输入 + 输出 + 推理</div></div>
-      <div class="panel kpi"><div class="label">输入 Tokens</div><div class="value" id="kIn">0</div><div class="sub">含缓存命中另计</div></div>
-      <div class="panel kpi"><div class="label">输出 Tokens</div><div class="value" id="kOut">0</div><div class="sub">模型回复</div></div>
-      <div class="panel kpi"><div class="label">推理 Tokens</div><div class="value" id="kReason">0</div><div class="sub">reasoning</div></div>
+      <div class="panel kpi"><div class="label" data-i18n="kpi_req">请求/任务数</div><div class="value" id="kReq">0</div><div class="sub" id="kFail">失败 0</div></div>
+      <div class="panel kpi"><div class="label" data-i18n="kpi_total_tok">总 Tokens</div><div class="value" id="kTok">0</div><div class="sub" data-i18n="kpi_total_tok_sub">输入 + 输出 + 推理</div></div>
+      <div class="panel kpi"><div class="label" data-i18n="kpi_input_tok">输入 Tokens</div><div class="value" id="kIn">0</div><div class="sub" data-i18n="kpi_input_tok_sub">含缓存命中另计</div></div>
+      <div class="panel kpi"><div class="label" data-i18n="kpi_output_tok">输出 Tokens</div><div class="value" id="kOut">0</div><div class="sub" data-i18n="kpi_output_tok_sub">模型回复</div></div>
+      <div class="panel kpi"><div class="label" data-i18n="kpi_reason_tok">推理 Tokens</div><div class="value" id="kReason">0</div><div class="sub" data-i18n="kpi_reason_tok_sub">reasoning</div></div>
     </section>
     <section class="grid two">
-      <div class="panel"><h2>按小时消耗</h2><canvas id="hourChart" width="900" height="260"></canvas></div>
-      <div class="panel"><h2>模型消耗</h2><canvas id="modelChart" width="520" height="260"></canvas></div>
+      <div class="panel">
+        <h2 data-i18n="chart_hourly">按小时消耗</h2>
+        <canvas id="hourChart" width="900" height="260"></canvas>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;text-align:right;" data-i18n="timezone_warn">提示：图表数据按服务器时区（上海时间 UTC+8）统计</div>
+      </div>
+      <div class="panel"><h2 data-i18n="chart_model">模型消耗</h2><canvas id="modelChart" width="520" height="260"></canvas></div>
     </section>
     <section class="grid two">
-      <div class="panel"><h2>账号消耗</h2><div class="scroll"><table><thead><tr><th>账号</th><th class="num">请求</th><th class="num">总 Token</th><th class="num">输入</th><th class="num">输出</th><th class="num">推理</th><th class="num">失败</th></tr></thead><tbody id="accounts"></tbody></table></div></div>
-      <div class="panel"><h2>账号余量</h2><div class="scroll"><table><thead><tr><th>账号</th><th>状态</th><th>5h 剩余</th><th>7d 剩余</th><th>重置时间</th></tr></thead><tbody id="quotas"></tbody></table></div></div>
+      <div class="panel"><h2 data-i18n="section_accounts">账号消耗</h2><div class="scroll"><table><thead><tr><th data-i18n="th_account">账号</th><th class="num" data-i18n="th_request">请求</th><th class="num" data-i18n="th_total_token">总 Token</th><th class="num" data-i18n="th_input">输入</th><th class="num" data-i18n="th_output">输出</th><th class="num" data-i18n="th_reasoning">推理</th><th class="num" data-i18n="th_failed">失败</th></tr></thead><tbody id="accounts"></tbody></table></div></div>
+      <div class="panel"><h2 data-i18n="section_quotas">账号余量</h2><div class="scroll"><table><thead><tr><th data-i18n="th_account">账号</th><th data-i18n="th_status">状态</th><th data-i18n="th_remaining_5h">5h 剩余</th><th data-i18n="th_remaining_7d">7d 剩余</th><th data-i18n="th_reset_time">重置时间</th></tr></thead><tbody id="quotas"></tbody></table></div></div>
     </section>
-    <section class="panel" style="margin-top:14px"><h2>最近每次请求/任务</h2><div class="scroll"><table><thead><tr><th>时间</th><th>账号</th><th>模型</th><th class="num">总 Token</th><th class="num">输入</th><th class="num">输出</th><th class="num">推理</th><th class="num">耗时</th><th>状态</th></tr></thead><tbody id="requests"></tbody></table></div></section>
+    <section class="panel" style="margin-top:14px"><h2 data-i18n="section_requests">最近每次请求/任务</h2><div class="scroll"><table><thead><tr><th data-i18n="th_time">时间</th><th data-i18n="th_account">账号</th><th data-i18n="th_model">模型</th><th class="num" data-i18n="th_total_token">总 Token</th><th class="num" data-i18n="th_input">输入</th><th class="num" data-i18n="th_output">输出</th><th class="num" data-i18n="th_reasoning">推理</th><th class="num" data-i18n="th_latency">耗时</th><th data-i18n="th_status">状态</th></tr></thead><tbody id="requests"></tbody></table></div></section>
   </main>
 <script>
-const nf = new Intl.NumberFormat('zh-CN');
+const TRANSLATIONS = {
+  'zh-CN': {
+    'title': 'CLIProxyAPI 用量统计',
+    'range_today': '今天',
+    'range_1h': '最近 1 小时',
+    'range_5h': '最近 5 小时',
+    'range_24h': '最近 24 小时',
+    'range_7d': '最近 7 天',
+    'refresh': '刷新',
+    'refresh_quota': '刷新余量',
+    'kpi_req': '请求/任务数',
+    'failed_prefix': '失败 ',
+    'kpi_total_tok': '总 Tokens',
+    'kpi_total_tok_sub': '输入 + 输出 + 推理',
+    'kpi_input_tok': '输入 Tokens',
+    'kpi_input_tok_sub': '含缓存命中另计',
+    'kpi_output_tok': '输出 Tokens',
+    'kpi_output_tok_sub': '模型回复',
+    'kpi_reason_tok': '推理 Tokens',
+    'kpi_reason_tok_sub': 'reasoning',
+    'chart_hourly': '按小时消耗',
+    'chart_model': '模型消耗',
+    'section_accounts': '账号消耗',
+    'section_quotas': '账号余量',
+    'section_requests': '最近每次请求/任务',
+    'th_account': '账号',
+    'th_request': '请求',
+    'th_total_token': '总 Token',
+    'th_input': '输入',
+    'th_output': '输出',
+    'th_reasoning': '推理',
+    'th_failed': '失败',
+    'th_status': '状态',
+    'th_remaining_5h': '5h 剩余',
+    'th_remaining_7d': '7d 剩余',
+    'th_reset_time': '重置时间',
+    'th_time': '时间',
+    'th_model': '模型',
+    'th_latency': '耗时',
+    'status_available': '可用',
+    'status_restricted': '受限',
+    'status_success': '成功',
+    'status_failed': '失败',
+    'status_unknown': '未知',
+    'updated_at': '更新于 ',
+    'timezone_warn': '提示：图表数据按服务器时区（上海时间 UTC+8）统计'
+  },
+  'vi-VN': {
+    'title': 'Thống kê Sử dụng CLIProxyAPI',
+    'range_today': 'Hôm nay',
+    'range_1h': '1 giờ qua',
+    'range_5h': '5 giờ qua',
+    'range_24h': '24 giờ qua',
+    'range_7d': '7 ngày qua',
+    'refresh': 'Làm mới',
+    'refresh_quota': 'Làm mới hạn mức',
+    'kpi_req': 'Số yêu cầu/nhiệm vụ',
+    'failed_prefix': 'Thất bại ',
+    'kpi_total_tok': 'Tổng số Token',
+    'kpi_total_tok_sub': 'Đầu vào + Đầu ra + Suy luận',
+    'kpi_input_tok': 'Token đầu vào',
+    'kpi_input_tok_sub': 'Bao gồm cả khớp bộ nhớ đệm',
+    'kpi_output_tok': 'Token đầu ra',
+    'kpi_output_tok_sub': 'Phản hồi từ mô hình',
+    'kpi_reason_tok': 'Token suy luận',
+    'kpi_reason_tok_sub': 'Suy luận (reasoning)',
+    'chart_hourly': 'Tiêu thụ theo giờ',
+    'chart_model': 'Tiêu thụ theo mô hình',
+    'section_accounts': 'Tiêu thụ theo tài khoản',
+    'section_quotas': 'Hạn mức tài khoản',
+    'section_requests': 'Các yêu cầu/nhiệm vụ gần đây',
+    'th_account': 'Tài khoản',
+    'th_request': 'Yêu cầu',
+    'th_total_token': 'Tổng Token',
+    'th_input': 'Đầu vào',
+    'th_output': 'Đầu ra',
+    'th_reasoning': 'Suy luận',
+    'th_failed': 'Thất bại',
+    'th_status': 'Trạng thái',
+    'th_remaining_5h': 'Còn lại 5h',
+    'th_remaining_7d': 'Còn lại 7d',
+    'th_reset_time': 'Thời gian đặt lại',
+    'th_time': 'Thời gian',
+    'th_model': 'Mô hình',
+    'th_latency': 'Độ trễ',
+    'status_available': 'Khả dụng',
+    'status_restricted': 'Bị hạn chế',
+    'status_success': 'Thành công',
+    'status_failed': 'Thất bại',
+    'status_unknown': 'Không xác định',
+    'updated_at': 'Cập nhật lúc ',
+    'timezone_warn': 'Lưu ý: Biểu đồ thống kê theo múi giờ máy chủ (Thượng Hải UTC+8)'
+  },
+  'en-US': {
+    'title': 'CLIProxyAPI Usage Statistics',
+    'range_today': 'Today',
+    'range_1h': 'Last 1 hour',
+    'range_5h': 'Last 5 hours',
+    'range_24h': 'Last 24 hours',
+    'range_7d': 'Last 7 days',
+    'refresh': 'Refresh',
+    'refresh_quota': 'Refresh Quotas',
+    'kpi_req': 'Requests/Tasks',
+    'failed_prefix': 'Failed ',
+    'kpi_total_tok': 'Total Tokens',
+    'kpi_total_tok_sub': 'Input + Output + Reasoning',
+    'kpi_input_tok': 'Input Tokens',
+    'kpi_input_tok_sub': 'Incl. cache hit',
+    'kpi_output_tok': 'Output Tokens',
+    'kpi_output_tok_sub': 'Model response',
+    'kpi_reason_tok': 'Reasoning Tokens',
+    'kpi_reason_tok_sub': 'Reasoning',
+    'chart_hourly': 'Hourly Consumption',
+    'chart_model': 'Model Consumption',
+    'section_accounts': 'Account Consumption',
+    'section_quotas': 'Account Quotas',
+    'section_requests': 'Recent Requests/Tasks',
+    'th_account': 'Account',
+    'th_request': 'Requests',
+    'th_total_token': 'Total Tokens',
+    'th_input': 'Input',
+    'th_output': 'Output',
+    'th_reasoning': 'Reasoning',
+    'th_failed': 'Failed',
+    'th_status': 'Status',
+    'th_remaining_5h': '5h Remaining',
+    'th_remaining_7d': '7d Remaining',
+    'th_reset_time': 'Reset Time',
+    'th_time': 'Time',
+    'th_model': 'Model',
+    'th_latency': 'Latency',
+    'status_available': 'Available',
+    'status_restricted': 'Restricted',
+    'status_success': 'Success',
+    'status_failed': 'Failed',
+    'status_unknown': 'Unknown',
+    'updated_at': 'Updated at ',
+    'timezone_warn': 'Note: Chart metrics are aggregated in Server Timezone (Shanghai UTC+8)'
+  }
+};
+
+let currentLang = 'zh-CN';
+function t(key) {
+  const dict = TRANSLATIONS[currentLang] || TRANSLATIONS['zh-CN'];
+  return dict[key] || TRANSLATIONS['zh-CN'][key] || key;
+}
+
+let nf = new Intl.NumberFormat('zh-CN');
 const $ = id => document.getElementById(id);
 function fmt(n){ return nf.format(n || 0); }
 function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -622,7 +778,7 @@ function drawHorizontal(canvas, rows){
   const top = 12, rowH = 30, max = Math.max(1, ...rows.map(r => Number(r.total_tokens || 0)));
   rows.slice(0,8).forEach((r,i) => {
     const y = top + i * rowH; const labelW = 150; const barW = (w-labelW-90) * Number(r.total_tokens || 0) / max;
-    ctx.fillStyle = '#344054'; ctx.textAlign='left'; ctx.fillText(String(r.model || 'unknown').slice(0,22), 8, y+18);
+    ctx.fillStyle = '#344054'; ctx.textAlign='left'; ctx.fillText(String((!r.model || r.model === 'unknown') ? t('status_unknown') : r.model).slice(0,22), 8, y+18);
     ctx.fillStyle = '#0f9f6e'; ctx.fillRect(labelW, y+6, barW, 14);
     ctx.fillStyle = '#667085'; ctx.fillText(fmt(r.total_tokens), labelW + barW + 8, y+18);
   });
@@ -639,20 +795,60 @@ async function load(forceQuota=false){
     getJSON('/api/requests?limit=120')
   ]);
   const s = summary.summary;
-  $('kReq').textContent = fmt(s.requests); $('kFail').textContent = '失败 ' + fmt(s.failed);
+  $('kReq').textContent = fmt(s.requests); $('kFail').textContent = t('failed_prefix') + fmt(s.failed);
   $('kTok').textContent = fmt(s.total_tokens); $('kIn').textContent = fmt(s.input_tokens);
   $('kOut').textContent = fmt(s.output_tokens); $('kReason').textContent = fmt(s.reasoning_tokens);
-  $('accounts').innerHTML = summary.accounts.map(a => `<tr><td>${esc(a.account)}</td><td class="num">${fmt(a.requests)}</td><td class="num">${fmt(a.total_tokens)}</td><td class="num">${fmt(a.input_tokens)}</td><td class="num">${fmt(a.output_tokens)}</td><td class="num">${fmt(a.reasoning_tokens)}</td><td class="num">${fmt(a.failed)}</td></tr>`).join('');
-  $('quotas').innerHTML = quota.quotas.map(q => `<tr><td>${esc(q.email)}</td><td><span class="status"><span class="dot ${q.allowed ? '' : 'bad'}"></span>${q.allowed ? '可用' : '受限'}</span></td><td>${quotaBar(q.primary_remaining_percent)}</td><td>${quotaBar(q.secondary_remaining_percent)}</td><td><div>${esc(q.primary_reset_at)}</div><div class="muted">${esc(q.secondary_reset_at)}</div></td></tr>`).join('');
-  $('requests').innerHTML = reqs.requests.map(r => `<tr><td>${esc(r.local_time)}</td><td>${esc(r.source || r.auth_index)}</td><td>${esc(r.model)}</td><td class="num">${fmt(r.total_tokens)}</td><td class="num">${fmt(r.input_tokens)}</td><td class="num">${fmt(r.output_tokens)}</td><td class="num">${fmt(r.reasoning_tokens)}</td><td class="num">${fmt(r.latency_ms)}ms</td><td>${r.failed ? '失败' : '成功'}</td></tr>`).join('');
+  $('accounts').innerHTML = summary.accounts.map(a => `<tr><td>${esc(a.account === 'unknown' ? t('status_unknown') : a.account)}</td><td class="num">${fmt(a.requests)}</td><td class="num">${fmt(a.total_tokens)}</td><td class="num">${fmt(a.input_tokens)}</td><td class="num">${fmt(a.output_tokens)}</td><td class="num">${fmt(a.reasoning_tokens)}</td><td class="num">${fmt(a.failed)}</td></tr>`).join('');
+  $('quotas').innerHTML = quota.quotas.map(q => `<tr><td>${esc(q.email)}</td><td><span class="status"><span class="dot ${q.allowed ? '' : 'bad'}"></span>${q.allowed ? t('status_available') : t('status_restricted')}</span></td><td>${quotaBar(q.primary_remaining_percent)}</td><td>${quotaBar(q.secondary_remaining_percent)}</td><td><div>${esc(q.primary_reset_at)}</div><div class="muted">${esc(q.secondary_reset_at)}</div></td></tr>`).join('');
+  $('requests').innerHTML = reqs.requests.map(r => `<tr><td>${esc(r.local_time)}</td><td>${esc((r.source || r.auth_index) === 'unknown' ? t('status_unknown') : (r.source || r.auth_index))}</td><td>${esc(r.model === 'unknown' ? t('status_unknown') : r.model)}</td><td class="num">${fmt(r.total_tokens)}</td><td class="num">${fmt(r.input_tokens)}</td><td class="num">${fmt(r.output_tokens)}</td><td class="num">${fmt(r.reasoning_tokens)}</td><td class="num">${fmt(r.latency_ms)}ms</td><td>${r.failed ? t('status_failed') : t('status_success')}</td></tr>`).join('');
   drawBars($('hourChart'), summary.hours, 'hour', 'total_tokens', '#2563eb');
   drawHorizontal($('modelChart'), summary.models);
-  $('updated').textContent = '更新于 ' + new Date().toLocaleTimeString('zh-CN');
+  $('updated').textContent = t('updated_at') + new Date().toLocaleTimeString(currentLang);
 }
+
+function setLanguage(lang) {
+  currentLang = lang;
+  try {
+    localStorage.setItem('dashboard_lang', lang);
+  } catch (e) {}
+  nf = new Intl.NumberFormat(lang);
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    el.textContent = t(key);
+  });
+  document.title = t('title');
+  document.documentElement.lang = lang;
+  load(false);
+  document.body.style.opacity = '1';
+}
+
+$('lang').onchange = (e) => {
+  setLanguage(e.target.value);
+};
+
+const ALLOWED_LANGS = ['zh-CN', 'vi-VN', 'en-US'];
+let detectedLang = 'zh-CN';
+try {
+  detectedLang = localStorage.getItem('dashboard_lang');
+} catch (e) {}
+
+if (!detectedLang || !ALLOWED_LANGS.includes(detectedLang)) {
+  const navLang = navigator.language || navigator.userLanguage || '';
+  if (navLang.startsWith('vi')) {
+    detectedLang = 'vi-VN';
+  } else if (navLang.startsWith('en')) {
+    detectedLang = 'en-US';
+  } else {
+    detectedLang = 'zh-CN';
+  }
+}
+$('lang').value = detectedLang;
+setLanguage(detectedLang);
+
 $('refresh').onclick = () => load(false);
 $('quota').onclick = () => load(true);
 $('range').onchange = () => load(false);
-load(false); setInterval(() => load(false), 30000);
+setInterval(() => load(false), 30000);
 </script>
 </body>
 </html>
