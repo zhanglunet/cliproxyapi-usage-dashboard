@@ -123,6 +123,37 @@ redis-usage-queue-retention-seconds: 3600
 
 `redis-usage-queue-retention-seconds` 用于延长队列保留时间，避免采集器短暂停止时丢失事件。
 
+## 快速开始（macOS）
+
+全程只需手工填一个值（`management_key`），其余保持默认：
+
+```bash
+# 1. 安装
+git clone https://github.com/zhanglunet/cliproxyapi-usage-dashboard
+cd cliproxyapi-usage-dashboard
+mkdir -p ~/.cli-proxy-api/usage-dashboard
+cp usage_dashboard.py ~/.cli-proxy-api/usage-dashboard/
+cp config.example.json ~/.cli-proxy-api/usage-dashboard/config.json
+chmod 700 ~/.cli-proxy-api/usage-dashboard
+chmod 600 ~/.cli-proxy-api/usage-dashboard/config.json
+
+# 2. 填入 CLIProxyAPI Management API 密钥（唯一必填项）
+$EDITOR ~/.cli-proxy-api/usage-dashboard/config.json
+
+# 3. 初始化并设为开机自启
+python3 ~/.cli-proxy-api/usage-dashboard/usage_dashboard.py init
+mkdir -p ~/Library/LaunchAgents
+for name in collector dashboard; do
+  sed "s|/Users/YOUR_USER|$HOME|g" launchd/com.cliproxyapi.usage-$name.plist \
+    > ~/Library/LaunchAgents/com.cliproxyapi.usage-$name.plist
+  launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.cliproxyapi.usage-$name.plist
+done
+```
+
+浏览器打开 `http://127.0.0.1:8320` 即可看到面板。
+
+不想开机自启的话，跳过 launchd 那段，改用两个终端分别跑 `collect` 和 `serve`（见下文「手动运行」）。Linux 等其他系统同样只需一个脚本 + 一份 config，参考下文「安装」与「手动运行」。
+
 ## 安装
 
 ```bash
